@@ -1,3 +1,8 @@
+# installed npm packages:
+
+1: react router dom: used to build router for the application
+2: uuid: used to generate unique key when map the pokemon list
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
