@@ -1,7 +1,8 @@
 # installed npm packages:
 
 1: react router dom: used to build router for the application
-2: uuid: used to generate unique key when map the pokemon list
+2: axios: to fetch api
+3: uuid: used to generate unique key when map the pokemon list
 
 # Getting Started with Create React App
 
