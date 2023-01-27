@@ -25,6 +25,7 @@ export default function PokemonDetails() {
       setIsLoading(true);
       setErrMsg("");
       const response = await axios.get(API);
+      //if user calls it multiple times in a roll before the request has finished
       const result = response.data;
       console.log(result);
       sessionStorage.setItem(item.pokemon.name, JSON.stringify(result));

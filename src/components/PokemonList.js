@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function PokemonList() {
-  const [API, setAPI] = useState("https://pokeapi.co/api/v2/pokemon");
+  const [currentPageApi, setCurrentPageApi] = useState(
+    "https://pokeapi.co/api/v2/pokemon"
+  );
+  const [nextPageApi, setNextPageApi] = useState("");
+  const [prePageApi, setPrePageApi] = useState("");
   const [pokemons, setPokemons] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -15,9 +19,11 @@ export default function PokemonList() {
       console.log(errMsg);
       setIsLoading(true);
       setErrMsg("");
-      const response = await axios.get(API);
+      const response = await axios.get(currentPageApi);
       const results = response.data.results;
-      console.log(results);
+      console.log(response.data);
+      setNextPageApi(response.data.next);
+      setPrePageApi(response.data.previous);
       if (results) {
         setPokemons(results);
         //caching api call in locakStorage
@@ -30,9 +36,16 @@ export default function PokemonList() {
     setIsLoading(false);
   };
 
+  const toNextPage = () => {
+    setCurrentPageApi(nextPageApi);
+  };
+  const toPrePage = () => {
+    setCurrentPageApi(prePageApi);
+  };
+
   useEffect(() => {
     fetchPokemons();
-  }, [API]);
+  }, [currentPageApi]);
 
   // display a pokemon list
   const pokemonList = pokemons.map((pokemon) => {
@@ -50,6 +63,10 @@ export default function PokemonList() {
       <h1>PokemonList</h1>
       <ul> {isLoading ? <p>Loading...</p> : pokemonList} </ul>
       {errMsg ? <p>{errMsg}</p> : null}
+      <div>
+       { prePageApi && <button onClick = {toPrePage}>Previous</button>}
+       {nextPageApi && <button onClick = {toNextPage}>Next</button>}
+      </div>
     </div>
   );
 }
