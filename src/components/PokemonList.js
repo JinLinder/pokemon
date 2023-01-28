@@ -61,9 +61,9 @@ export default function PokemonList() {
 
   return (
     <ListWrapper>
-      <Title>PokemonList</Title>
-      <div> {isLoading ? <p>Loading...</p> : <ul className="cardWrapper">{pokemonList}</ul>} </div>
-      {errMsg ? <p>{errMsg}</p> : null}
+      <Title>Pokemons</Title>
+      <div> {isLoading ? <Title>Loading...</Title> : <ul className="cardWrapper">{pokemonList}</ul>} </div>
+      {errMsg && <Title>{errMsg}</Title>}
       <div className = "btnGroup">
         {prePageApi && <Button onClick={toPrePage}>Previous</Button>}
         {nextPageApi && <Button onClick={toNextPage}>Next</Button>}

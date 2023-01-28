@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { theme } from "./Theme";
+
 export const ListWrapper = styled.div`
   .btnGroup {
     padding: 2rem;
@@ -51,13 +52,13 @@ export const ListWrapper = styled.div`
 
     @media ${theme.devices.mobileS} {
       width: 50%;
-      min-width: 8rem;
+      max-width: 6rem;
       box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
     }
 
     @media ${theme.devices.mobileM} {
       width: 50%;
-      min-width: 10rem;
+      min-width: 8rem;
       box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
     }
   }
@@ -69,7 +70,8 @@ export const ListWrapper = styled.div`
     color: white;
     text-align: center;
     padding: 1.5rem 2.5rem;
-    
+
+
     @media ${theme.devices.mobileS} {
       padding: 1rem 1.5rem;
       font-weight: 300;

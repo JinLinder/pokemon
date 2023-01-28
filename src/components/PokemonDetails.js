@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Title } from "../style/GlobleStyle";
+import { Title, TextNormal, Button } from "../style/GlobleStyle";
+import { DisplayWrapper } from "../style/StylePokemonDetails";
+
 
 export default function PokemonDetails() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { item } = location.state;
   const [API, setAPI] = useState(item.pokemon.url);
   const [picLoading, setPicLoading] = useState(true);
@@ -19,6 +22,11 @@ export default function PokemonDetails() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+  
+  //handle close button-to the list/home page
+  const close = () =>{
+    navigate("/")
+  }
 
   //fetch a specific pokemon
   const fetchPokemon = async () => {
@@ -31,7 +39,7 @@ export default function PokemonDetails() {
       console.log(result);
       sessionStorage.setItem(item.pokemon.name, JSON.stringify(result));
       setPokemon({
-        img: result.sprites.front_default,
+        img: result.sprites.other.dream_world.front_default,
         species: result.species.name,
         weight: result.weight,
         height: result.height,
@@ -54,12 +62,12 @@ export default function PokemonDetails() {
   // display pokemon
   const pokemonDisplay = () => {
     return (
-      <>
-        <p style={picLoading ? {} : { display: "none" }}>
-          Loading the picture...
-        </p>
+      <div className="pokemonInfo"> 
+        <TextNormal style={picLoading ? {} : { display: "none" }}>
+          Loading ...
+        </TextNormal>
 
-        <img
+        <img className="img"
           style={picLoading ? { display: "none" } : {}}
           src={pokemon.img}
           alt="This is how pokemon look like."
@@ -69,23 +77,22 @@ export default function PokemonDetails() {
             setPicLoading(false);
           }}
         />
-        {/* )} */}
-        <p>species: {pokemon.species}</p>
-        <p>weight: {pokemon.weight}</p>
-        <p>Hejght: {pokemon.height}</p>
-        <p>Attack: {pokemon.attack}</p>
-        <p>Defense: {pokemon.defense}</p>
-        <p>Hit points: {pokemon.hp}</p>
-        <p>Type: {pokemon.type}</p>
-      </>
+        <TextNormal><strong>Species:</strong> {pokemon.species} </TextNormal>
+        <TextNormal><strong>Weight:</strong> {pokemon.weight};<strong> Height: </strong>{pokemon.height}</TextNormal>
+        <TextNormal><strong>Attack:</strong> {pokemon.attack}</TextNormal>
+        <TextNormal><strong>Defense:</strong> {pokemon.defense}</TextNormal>
+        <TextNormal><strong>Hit points:</strong> {pokemon.hp}</TextNormal>
+        <TextNormal><strong>Type:</strong>  {pokemon.type}</TextNormal>
+        <Button className="closeButton"  onClick={close}>Back to the List</Button>
+      </div>
     );
   };
 
   return (
-    <div>
+    <DisplayWrapper>
       <Title>{item.pokemon.name}</Title>
-      <div>{isLoading ? <p>Loading...</p> : pokemonDisplay()}</div>
-      {errMsg ? <p>{errMsg}</p> : null}
-    </div>
+      <div>{isLoading ? <Title>Loading...</Title> : pokemonDisplay()}</div>
+      {errMsg && <Title>{errMsg}</Title>}
+    </DisplayWrapper>
   );
 }
