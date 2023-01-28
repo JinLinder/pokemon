@@ -3,7 +3,7 @@
 1: react router dom: used to build router for the application
 2: axios: to fetch api
 3: uuid: used to generate unique key when map the pokemon list
-
+4: styled-components: used to style the application
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

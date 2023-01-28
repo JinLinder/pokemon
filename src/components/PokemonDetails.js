@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { Title } from "../style/GlobleStyle";
 
 export default function PokemonDetails() {
   const location = useLocation();
@@ -82,7 +83,7 @@ export default function PokemonDetails() {
 
   return (
     <div>
-      <h1>{item.pokemon.name}</h1>
+      <Title>{item.pokemon.name}</Title>
       <div>{isLoading ? <p>Loading...</p> : pokemonDisplay()}</div>
       {errMsg ? <p>{errMsg}</p> : null}
     </div>

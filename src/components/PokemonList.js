@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { Button, Title } from "../style/GlobleStyle";
+import {ListWrapper} from '../style/StylePokemonList'
 export default function PokemonList() {
   const [currentPageApi, setCurrentPageApi] = useState(
     "https://pokeapi.co/api/v2/pokemon"
@@ -50,8 +51,8 @@ export default function PokemonList() {
   // display a pokemon list
   const pokemonList = pokemons.map((pokemon) => {
     return (
-      <li key={uuidv4()}>
-        <Link to={`pokemons/${pokemon.name}`} state={{ item: { pokemon } }}>
+      <li className="pokeCard" key={uuidv4()}>
+        <Link className="cardText" to={`pokemons/${pokemon.name}`} state={{ item: { pokemon } }}>
           {pokemon.name}
         </Link>
       </li>
@@ -59,14 +60,14 @@ export default function PokemonList() {
   });
 
   return (
-    <div>
-      <h1>PokemonList</h1>
-      <ul> {isLoading ? <p>Loading...</p> : pokemonList} </ul>
+    <ListWrapper>
+      <Title>PokemonList</Title>
+      <div> {isLoading ? <p>Loading...</p> : <ul className="cardWrapper">{pokemonList}</ul>} </div>
       {errMsg ? <p>{errMsg}</p> : null}
-      <div>
-       { prePageApi && <button onClick = {toPrePage}>Previous</button>}
-       {nextPageApi && <button onClick = {toNextPage}>Next</button>}
+      <div className = "btnGroup">
+        {prePageApi && <Button onClick={toPrePage}>Previous</Button>}
+        {nextPageApi && <Button onClick={toNextPage}>Next</Button>}
       </div>
-    </div>
+    </ListWrapper>
   );
 }
