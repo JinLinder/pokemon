@@ -2,16 +2,15 @@
 The application has 2 pages. 
 Home page shows the list of pokemons. Detail page shows the details of a specific pokemon.
 
-# branches:
+# Branches:
 The application has 2 branches. Master branch and TanStackQuery branch.
 The difference is that the master branch solved caching with sessionStorage but TanStackQuery branch solved it with Tan Stack Query. The reason is because I am not sure what you want to evaluate. 
 
 # Folder structure the application:
 scr -> components: components
-    -> style: style files for the components and global elements and themes.
+    -> style: style files for the components, global elements and themes.
 
-# installed npm packages:
-
+# Installed npm packages:
 1: react router dom: used to build router for the application
 2: axios: to fetch api
 3: uuid: used to generate unique key when map the pokemon list
