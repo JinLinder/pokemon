@@ -2,36 +2,28 @@ import styled from "styled-components";
 import { theme } from "./Theme";
 
 export const ListWrapper = styled.div`
-  .btnGroup {
-    padding: 2rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-
   .cardWrapper {
     margin: 3rem;
     padding: 3rem 2rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 0.5fr));
+    grid-template-columns: repeat(auto-fit, minmax(12.5rem, 0.5fr));
     grid-gap: 2rem;
 
-    @media ${theme.devices.mobileS}{
+    @media ${theme.devices.mobileS} {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 1rem ;
+      margin: 1rem;
       padding: 1rem;
     }
 
-    @media ${theme.devices.mobileM}{
+    @media ${theme.devices.mobileM} {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 1rem ;
+      margin: 1rem;
       padding: 1rem;
     }
   }
@@ -40,7 +32,7 @@ export const ListWrapper = styled.div`
     list-style: none;
     background-color: ${theme.colors.lightRed};
     border-radius: 1rem;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -53,13 +45,13 @@ export const ListWrapper = styled.div`
     @media ${theme.devices.mobileS} {
       width: 50%;
       max-width: 6rem;
-      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.5);
     }
 
     @media ${theme.devices.mobileM} {
       width: 50%;
       min-width: 8rem;
-      box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.5);
     }
   }
 
@@ -71,11 +63,18 @@ export const ListWrapper = styled.div`
     text-align: center;
     padding: 1.5rem 2.5rem;
 
-
     @media ${theme.devices.mobileS} {
       padding: 1rem 1.5rem;
       font-weight: 300;
       font-size: 1rem;
     }
+  }
+
+  .btnGroup {
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 `;

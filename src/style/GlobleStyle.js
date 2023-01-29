@@ -13,7 +13,6 @@ export const Button = styled.button`
   margin: 0.5rem 2rem;
   font-weight: 400;
   font-size: 1.2rem;
-
   :hover {
     transform: scale(1.05);
     color: ${theme.colors.darkRed};
@@ -66,16 +65,19 @@ export const TextNormal = styled.p`
   font-weight: 400;
   font-size: 1.2rem;
   margin: 1rem 0;
+
   @media ${theme.devices.tablet} {
     font-weight: 400;
     font-size: 1rem;
     margin: 1rem 0;
   }
+
   @media ${theme.devices.mobileM} {
-    font-weight:400;
+    font-weight: 400;
     font-size: 0.8rem;
     margin: 0.8rem 0;
   }
+
   @media ${theme.devices.mobileS} {
     font-weight: 300;
     font-size: 0.6rem;
@@ -86,4 +88,4 @@ export const GlobalStyles = createGlobalStyle`
     body {
         background: ${theme.colors.ligthYellow}
     }
-`;
+`

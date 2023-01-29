@@ -23,7 +23,7 @@ export default function PokemonDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   
-  //handle close button-to the list/home page
+  //handle close button, to the list/home page
   const close = () =>{
     navigate("/")
   }
@@ -33,11 +33,12 @@ export default function PokemonDetails() {
     try {
       setIsLoading(true);
       setErrMsg("");
+
       const response = await axios.get(API);
-      //if user calls it multiple times in a roll before the request has finished
       const result = response.data;
-      console.log(result);
+     //cache api call in sessionStorage
       sessionStorage.setItem(item.pokemon.name, JSON.stringify(result));
+
       setPokemon({
         img: result.sprites.other.dream_world.front_default,
         species: result.species.name,
@@ -71,11 +72,7 @@ export default function PokemonDetails() {
           style={picLoading ? { display: "none" } : {}}
           src={pokemon.img}
           alt="This is how pokemon look like."
-          loading="eager"
-          onLoad={() => {
-            console.log("finished loading");
-            setPicLoading(false);
-          }}
+          onLoad={() => setPicLoading(false)}
         />
         <TextNormal><strong>Species:</strong> {pokemon.species} </TextNormal>
         <TextNormal><strong>Weight:</strong> {pokemon.weight};<strong> Height: </strong>{pokemon.height}</TextNormal>
@@ -91,8 +88,7 @@ export default function PokemonDetails() {
   return (
     <DisplayWrapper>
       <Title>{item.pokemon.name}</Title>
-      <div>{isLoading ? <Title>Loading...</Title> : pokemonDisplay()}</div>
-      {errMsg && <Title>{errMsg}</Title>}
+      {isLoading ? <Title>Loading...</Title> : errMsg ? <Title>{errMsg}</Title> : pokemonDisplay()}
     </DisplayWrapper>
   );
 }

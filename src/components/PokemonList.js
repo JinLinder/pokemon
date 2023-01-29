@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Button, Title } from "../style/GlobleStyle";
-import {ListWrapper} from '../style/StylePokemonList'
+import { ListWrapper } from "../style/StylePokemonList";
+
 export default function PokemonList() {
   const [currentPageApi, setCurrentPageApi] = useState(
     "https://pokeapi.co/api/v2/pokemon"
@@ -17,17 +18,18 @@ export default function PokemonList() {
   //fech the pokemon list from the api
   const fetchPokemons = async () => {
     try {
-      console.log(errMsg);
       setIsLoading(true);
       setErrMsg("");
+
       const response = await axios.get(currentPageApi);
       const results = response.data.results;
-      console.log(response.data);
+
       setNextPageApi(response.data.next);
       setPrePageApi(response.data.previous);
+
       if (results) {
         setPokemons(results);
-        //caching api call in locakStorage
+        //cache api call in sessionStorage
         sessionStorage.setItem("Pokemons", JSON.stringify(results));
       }
     } catch (err) {
@@ -37,9 +39,11 @@ export default function PokemonList() {
     setIsLoading(false);
   };
 
+  // handle next and previous button events
   const toNextPage = () => {
     setCurrentPageApi(nextPageApi);
   };
+
   const toPrePage = () => {
     setCurrentPageApi(prePageApi);
   };
@@ -52,7 +56,11 @@ export default function PokemonList() {
   const pokemonList = pokemons.map((pokemon) => {
     return (
       <li className="pokeCard" key={uuidv4()}>
-        <Link className="cardText" to={`pokemons/${pokemon.name}`} state={{ item: { pokemon } }}>
+        <Link
+          className="cardText"
+          to={`pokemons/${pokemon.name}`}
+          state={{ item: { pokemon } }}
+        >
           {pokemon.name}
         </Link>
       </li>
@@ -62,9 +70,17 @@ export default function PokemonList() {
   return (
     <ListWrapper>
       <Title>Pokemons</Title>
-      <div> {isLoading ? <Title>Loading...</Title> : <ul className="cardWrapper">{pokemonList}</ul>} </div>
-      {errMsg && <Title>{errMsg}</Title>}
-      <div className = "btnGroup">
+      <div>
+        {isLoading ? (
+          <Title>Loading...</Title>
+        ) : errMsg ? (
+          <Title>{errMsg}</Title>
+        ) : (
+          <ul className="cardWrapper">{pokemonList}</ul>
+        )}
+      </div>
+
+      <div className="btnGroup">
         {prePageApi && <Button onClick={toPrePage}>Previous</Button>}
         {nextPageApi && <Button onClick={toNextPage}>Next</Button>}
       </div>
