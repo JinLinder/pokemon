@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Title, TextNormal, Button } from "../style/GlobleStyle";
 import { DisplayWrapper } from "../style/StylePokemonDetails";
-
+import { useQuery } from "@tanstack/react-query";
 
 export default function PokemonDetails() {
   const location = useLocation();
@@ -11,79 +11,64 @@ export default function PokemonDetails() {
   const { item } = location.state;
   const [API, setAPI] = useState(item.pokemon.url);
   const [picLoading, setPicLoading] = useState(true);
-  const [pokemon, setPokemon] = useState({
-    img: "",
-    species: "",
-    weigth: "",
-    height: "",
-    attack: "",
-    defense: "",
-    type: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
-  
-  //handle close button-to the list/home page
-  const close = () =>{
-    navigate("/")
-  }
 
-  //fetch a specific pokemon
-  const fetchPokemon = async () => {
-    try {
-      setIsLoading(true);
-      setErrMsg("");
-      const response = await axios.get(API);
-      //if user calls it multiple times in a roll before the request has finished
-      const result = response.data;
-      console.log(result);
-      sessionStorage.setItem(item.pokemon.name, JSON.stringify(result));
-      setPokemon({
-        img: result.sprites.other.dream_world.front_default,
-        species: result.species.name,
-        weight: result.weight,
-        height: result.height,
-        attack: result.stats[1].base_stat,
-        defense: result.stats[2].base_stat,
-        hp: result.stats[0].base_stat,
-        type: result.types[0].type.name,
-      });
-    } catch (err) {
-      console.log(err);
-      setErrMsg("Oops! Something went wrong");
-    }
-    setIsLoading(false);
+  //handle close button-to the list/home page
+  const close = () => {
+    navigate("/");
   };
 
-  useEffect(() => {
-    fetchPokemon();
-  }, [API]);
+  //fetch function to fetch the data
+  const fetch = async () => {
+    const response = await axios.get(API);
+    const result = response.data;
+    return result;
+  };
+
+  // useQuery from Tan Stack Query to fetch data and handle cache
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [{ API }],
+    queryFn: fetch,
+  });
+
+  const pokemon = data ?? [];
 
   // display pokemon
   const pokemonDisplay = () => {
     return (
-      <div className="pokemonInfo"> 
+      <div className="pokemonInfo">
         <TextNormal style={picLoading ? {} : { display: "none" }}>
           Loading ...
         </TextNormal>
-
-        <img className="img"
+        <img
+          className="img"
           style={picLoading ? { display: "none" } : {}}
-          src={pokemon.img}
-          alt="This is how pokemon look like."
-          loading="eager"
-          onLoad={() => {
-            console.log("finished loading");
-            setPicLoading(false);
-          }}
+          src={pokemon.sprites.other.dream_world.front_default}
+          alt={item.pokemon.name}
+          onLoad={() => setPicLoading(false)}
         />
-        <TextNormal><strong>Species:</strong> {pokemon.species} </TextNormal>
-        <TextNormal><strong>Weight:</strong> {pokemon.weight};<strong> Height: </strong>{pokemon.height}</TextNormal>
-        <TextNormal><strong>Attack:</strong> {pokemon.attack}</TextNormal>
-        <TextNormal><strong>Defense:</strong> {pokemon.defense}</TextNormal>
-        <TextNormal><strong>Hit points:</strong> {pokemon.hp}</TextNormal>
-        <TextNormal><strong>Type:</strong>  {pokemon.type}</TextNormal>
-        <Button className="closeButton"  onClick={close}>Back to the List</Button>
+
+        <TextNormal>
+          <strong>Species:</strong> {pokemon.species.name}{" "}
+        </TextNormal>
+        <TextNormal>
+          <strong>Weight:</strong> {pokemon.weight};<strong> Height: </strong>
+          {pokemon.height}
+        </TextNormal>
+        <TextNormal>
+          <strong>Attack:</strong> {pokemon.stats[1].base_stat}
+        </TextNormal>
+        <TextNormal>
+          <strong>Defense:</strong> {pokemon.stats[2].base_stat}
+        </TextNormal>
+        <TextNormal>
+          <strong>Hit points:</strong> {pokemon.stats[0].base_stat}
+        </TextNormal>
+        <TextNormal>
+          <strong>Type:</strong> {pokemon.types[0].type.name}
+        </TextNormal>
+        <Button className="closeButton" onClick={close}>
+          Back to the List
+        </Button>
       </div>
     );
   };
@@ -91,8 +76,13 @@ export default function PokemonDetails() {
   return (
     <DisplayWrapper>
       <Title>{item.pokemon.name}</Title>
-      <div>{isLoading ? <Title>Loading...</Title> : pokemonDisplay()}</div>
-      {errMsg && <Title>{errMsg}</Title>}
+      {isLoading ? (
+        <Title>Loading...</Title>
+      ) : isError ? (
+        <Title>Opps Something went wrong...</Title>
+      ) : (
+        pokemonDisplay()
+      )}
     </DisplayWrapper>
   );
 }
