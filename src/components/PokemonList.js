@@ -12,6 +12,7 @@ export default function PokemonList() {
   );
   const [nextPageApi, setNextPageApi] = useState("");
   const [prePageApi, setPrePageApi] = useState("");
+  const [search, setSearch] = useState("");
 
   //fetch function to fetch the data
   const fetch = async () => {
@@ -28,9 +29,15 @@ export default function PokemonList() {
     queryFn: fetch,
   });
 
-  const pokemons = data ?? [];
+  let pokemons = data ?? [];
 
-  // handle event from the next and previous button
+  // handle search
+  if (search) {
+    pokemons = pokemons.filter((pokemon) => {
+      return pokemon.name.includes(search.toLocaleLowerCase());
+    });
+  }
+
   const toNextPage = () => {
     setCurrentPageApi(nextPageApi);
   };
@@ -58,6 +65,9 @@ export default function PokemonList() {
     <ListWrapper>
       <Title>Pokemons</Title>
       <div>
+        <input
+          className="searchBox" placeholder="Search by name" onChange={(e) => setSearch(e.target.value)}
+        />
         {isLoading ? (
           <Title>Loading...</Title>
         ) : isError ? (

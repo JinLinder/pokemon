@@ -28,6 +28,19 @@ export const ListWrapper = styled.div`
     }
   }
 
+  .searchBox {
+    margin: auto;
+    display: block;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    width: 30%;
+    :focus{
+      outline: none !important;
+      border:1px solid ${theme.colors.yellow};
+    }
+  }
+  
   .pokeCard {
     list-style: none;
     background-color: ${theme.colors.lightRed};
