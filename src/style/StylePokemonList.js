@@ -38,6 +38,7 @@ export const ListWrapper = styled.div`
     :focus{
       outline: none !important;
       border:1px solid ${theme.colors.yellow};
+      box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.3)
     }
   }
   

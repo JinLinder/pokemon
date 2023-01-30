@@ -66,7 +66,7 @@ export default function PokemonList() {
       <Title>Pokemons</Title>
       <div>
         <input
-          className="searchBox" placeholder="Search by name" onChange={(e) => setSearch(e.target.value)}
+          className="searchBox" placeholder="Choose your pokemon :)" onChange={(e) => setSearch(e.target.value)}
         />
         {isLoading ? (
           <Title>Loading...</Title>
