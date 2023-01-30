@@ -38,6 +38,7 @@ export default function PokemonList() {
     });
   }
 
+  // handle button events
   const toNextPage = () => {
     setCurrentPageApi(nextPageApi);
   };
