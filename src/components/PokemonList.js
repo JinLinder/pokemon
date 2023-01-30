@@ -12,8 +12,10 @@ export default function PokemonList() {
   const [nextPageApi, setNextPageApi] = useState("");
   const [prePageApi, setPrePageApi] = useState("");
   const [pokemons, setPokemons] = useState([]);
+  const [pokeOutPut, setPokeOutPut] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+  const [search, setSearch] = useState("");
 
   //fech the pokemon list from the api
   const fetchPokemons = async () => {
@@ -29,6 +31,7 @@ export default function PokemonList() {
 
       if (results) {
         setPokemons(results);
+        setPokeOutPut(results);
         //cache api call in sessionStorage
         sessionStorage.setItem("Pokemons", JSON.stringify(results));
       }
@@ -48,12 +51,22 @@ export default function PokemonList() {
     setCurrentPageApi(prePageApi);
   };
 
+  // fetch new pokemons connect to the next and previous button
   useEffect(() => {
     fetchPokemons();
   }, [currentPageApi]);
 
+  // filter function
+  useEffect(() => {
+    setPokeOutPut(
+      pokemons.filter((pokemon) => {
+        return pokemon.name.includes(search.toLocaleLowerCase());
+      })
+    );
+  }, [search, pokemons]);
+
   // display a pokemon list
-  const pokemonList = pokemons.map((pokemon) => {
+  const pokemonList = pokeOutPut.map((pokemon) => {
     return (
       <li className="pokeCard" key={uuidv4()}>
         <Link
@@ -71,6 +84,11 @@ export default function PokemonList() {
     <ListWrapper>
       <Title>Pokemons</Title>
       <div>
+        <input
+          className="searchBox"
+          placeholder="Choose your pokemon :)"
+          onChange={(e) => setSearch(e.target.value)}
+        />
         {isLoading ? (
           <Title>Loading...</Title>
         ) : errMsg ? (
