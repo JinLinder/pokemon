@@ -4,7 +4,7 @@ Home page shows the list of pokemons. Detail page shows the details of a specifi
 
 # Branches:
 The application has 2 branches. Master branch and TanStackQuery branch.
-The difference is that the master branch solved caching with sessionStorage but TanStackQuery branch solved it with TanStack Query. The reason is because I am not sure what you want to evaluate. 
+
 
 # Folder structure the application:
 scr -> components: components
