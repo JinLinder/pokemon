@@ -22,21 +22,31 @@ export default function PokemonList() {
     try {
       setIsLoading(true);
       setErrMsg("");
+      //check cache
+      let storage = sessionStorage.getItem(currentPageApi)
+      if (storage) {
 
-      const response = await axios.get(currentPageApi);
-      const results = response.data.results;
+        setNextPageApi(JSON.parse(storage).next);
+        setPrePageApi(JSON.parse(storage).previous);
+        setPokemons(JSON.parse(storage).results);
+        setPokeOutPut(JSON.parse(storage).results);
 
-      setNextPageApi(response.data.next);
-      setPrePageApi(response.data.previous);
+      } else {
+        const response = await axios.get(currentPageApi);
+        const results = response.data.results;
+        console.log('fetch' + response.data.next)
+        setNextPageApi(response.data.next);
+        setPrePageApi(response.data.previous);
 
-      if (results) {
-        setPokemons(results);
-        setPokeOutPut(results);
-        //cache api call in sessionStorage
-        sessionStorage.setItem("Pokemons", JSON.stringify(results));
+        if (results) {
+          setPokemons(results);
+          setPokeOutPut(results);
+          //cache api call in sessionStorage
+          sessionStorage.setItem(currentPageApi, JSON.stringify(response.data));
+        }
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setErrMsg("Oops! Something went wrong");
     }
     setIsLoading(false);

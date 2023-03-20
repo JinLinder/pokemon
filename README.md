@@ -2,9 +2,6 @@
 The application has 2 pages. 
 Home page shows the list of pokemons. Detail page shows the details of a specific pokemon.
 
-# Branches:
-The application has 2 branches. Master branch and TanStackQuery branch.
-
 
 # Folder structure the application:
 scr -> components: components
